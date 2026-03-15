@@ -50,7 +50,7 @@ func postTasks(c *gin.Context) {
     tasks = append(tasks, newTask)
     c.IndentedJSON(http.StatusCreated, newTask)
 }
-
+//backend go or golang
 //-----------------------------------------------------------------------
 // function editTasks(e: MouseEvent) {
 //   const target = e.target as HTMLElement;
