@@ -1,0 +1,13 @@
+
+body{
+  background-color: cornflowerblue;
+}
+
+#submit{
+  background-color: cadetblue;
+  border-radius: 10%;
+}
+
+#addNewItem{
+  border-style: groove;
+}
