@@ -6,27 +6,24 @@ type TaskItem = {
   checked: boolean;
 }
 
-const taskItems: TaskItem[] = [{id: "1", content: "Walk dog.", checked: false}];
+const taskItems: TaskItem[] = [];
 
 const taskInput = document.querySelector<HTMLInputElement>("#addNewItem")!;
 
 let tasks = document.querySelector<HTMLDivElement>('#taskList')!; 
 let addTask = document.querySelector<HTMLDivElement>('#submit')!; 
-let editTask = document.querySelector<HTMLDivElement>('#editTask')!; 
-let deleteTask = document.querySelector<HTMLDivElement>('#deleteTask')!; 
+
 
 addTask.addEventListener<'click'>('click', addTasks);
-editTask.addEventListener<'click'>('click', editTasks);
-deleteTask.addEventListener<'click'>('click', deleteTasks);
 
 function displayTasks(){
     let itemList: string = ``;
     for(let i = 0;i < taskItems.length;i++){
-  itemList +=`<li>
+  itemList +=`<li id="singleTask">
       <p>${taskItems[i].content}</p>
       <input type="checkbox"></input>
-      <button id="editTask">Edit</button>
-      <button id="deleteTask">Delete</button>
+      <button id="editTask" class="editTask" data-id="${taskItems[i].id}">Edit</button>
+      <button id="deleteTask" class="deleteTask" data-id="${taskItems[i].id}">Delete</button>
     </li>`
     }
     tasks.innerHTML = itemList
@@ -39,25 +36,42 @@ taskItems.push({
   content: taskInput.value,
   checked: false
 })
+localStorage.setItem("task:", JSON.stringify(taskItems))
 displayTasks()
 }
 }
+//TODO add functionality of edit button
+//TODO allow adding to local storage better than it is now
+tasks.addEventListener("click", editTasks)
 
 function editTasks(e: MouseEvent){
-if(e){
+  const target = e.target as HTMLElement;
+  if(target.matches(".editTask")){
+    let taskIndex = taskItems.findIndex(item => item.id === target.dataset.id)
+    taskItems.find(item => item.id === taskIndex);
+    localStorage.setItem("task:", JSON.stringify(taskItems))
+    displayTasks()
+}
+}
 
-}
-displayTasks()
-}
+tasks?.addEventListener("click", deleteTasks)
 
 function deleteTasks(e: MouseEvent){
-if(e){
-
+  const target = e.target as HTMLElement;
+  if(target.matches(".deleteTask")){
+    let taskIndex = taskItems.findIndex(item => item.id === target.dataset.id)
+    taskItems.splice(taskIndex, 1)
+    localStorage.setItem("task:", JSON.stringify(taskItems))
+    displayTasks()
+  }
 }
 displayTasks()
-}
 
-displayTasks()
+//user clicks the delete btn calling the event handler in deleteTask
+//on click the deleteTasks function is called 
+//I want to get the ID of the item and splice it from the array
+// then return new array with item deleted
+
 //above is displayed at all times
 //if taskList.length === 0 display nothing besides above
 //else display taskList as a ul
