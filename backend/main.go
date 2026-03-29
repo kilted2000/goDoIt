@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"net/http"
 )
-
+//backend saves items to localStorage
+//sends updated list to frontend
 var hello = "Hello"
 var hi = "Tim"
 var hey = "Bob"
