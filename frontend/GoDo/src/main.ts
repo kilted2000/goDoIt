@@ -4,6 +4,7 @@ type TaskItem = {
   id: string;
   content: string;
   checked: boolean;
+  isEditing: boolean;
 }
 
 const taskItems: TaskItem[] = [];
@@ -15,9 +16,9 @@ let addTask = document.querySelector<HTMLDivElement>('#submit')!;
 
 
 addTask.addEventListener<'click'>('click', addTasks);
+let itemList: string = ``;
 
 function displayTasks(){
-    let itemList: string = ``;
     for(let i = 0;i < taskItems.length;i++){
   itemList +=`<li id="singleTask">
       <p>${taskItems[i].content}</p>
@@ -34,7 +35,8 @@ if(e){
 taskItems.push({
   id: crypto.randomUUID(),
   content: taskInput.value,
-  checked: false
+  checked: false,
+  isEditing: false
 })
 localStorage.setItem("task:", JSON.stringify(taskItems))
 displayTasks()
@@ -45,14 +47,36 @@ displayTasks()
 tasks.addEventListener("click", editTasks)
 
 function editTasks(e: MouseEvent){
+  //captures the element where the click event occured 
   const target = e.target as HTMLElement;
+  //if that element matches the element with editTask class 
   if(target.matches(".editTask")){
+    //grab it's index
     let taskIndex = taskItems.findIndex(item => item.id === target.dataset.id)
-    taskItems.find(taskIndex);
+
+  //create if/else statement using itemList string array variable
+
+    //replace item with rerenderd li but with a Done btn
+    //when Done btn is clicked the item at that index is replaced with the new content
+    //if isEditing: true diplay the <li>  but with a Done btn, no edit/delete bts, and current content as taskItems[i].content 
+    //reassign taskItems[i].content = innertext = new content
+    //else diplay the <li> from displaytasks
     localStorage.setItem("task:", JSON.stringify(taskItems))
     displayTasks()
 }
 }
+//The editing flag approach I mentioned fits perfectly with your if/else thinking at the end — that's exactly what it would power.
+// One thing to think through: when Done is clicked, that's a separate event from the Edit click, so you'll need to handle it in your event delegation listener on tasks. You could add another if(target.matches(".doneTask")) block there, same pattern as delete.
+// Also worth noting — move localStorage.setItem and displayTasks() to inside the Done handler, not the Edit handler. Edit just flips the UI, Done is when the data actually changes.
+// when edit was pressed, the taskitem would be turned into an text input with the current content inside it, also a done button would appear to be pressed when the user was done editing
+// The pattern would be:
+
+// 1.When edit is clicked, re-render that specific <li> with an <input> pre-filled with the current content and a "Done" button instead of the Edit/Delete buttons
+// 2.When Done is clicked, read the input value, update taskItems[taskIndex].content, save to localStorage, then call displayTasks() to re-render back to normal
+
+// So you'd need two states in your template — the normal view and the editing view. One way to handle this is a flag on the TaskItem type itself, something like editing: boolean, then in displayTasks check that flag and render differently for that item.
+// That way displayTasks handles everything and you don't need to manually manipulate individual <li> elements.
+//-------------------------------------------------------------------------------------------------------------
 //user clicks the edit btn calling the event handler in editask
 //on click the editTasks function is called 
 //I want to get the ID of the item and replace the old content with the new
