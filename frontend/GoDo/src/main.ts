@@ -48,11 +48,15 @@ function editTasks(e: MouseEvent){
   const target = e.target as HTMLElement;
   if(target.matches(".editTask")){
     let taskIndex = taskItems.findIndex(item => item.id === target.dataset.id)
-    taskItems.find(item => item.id === taskIndex);
+    taskItems.find(taskIndex);
     localStorage.setItem("task:", JSON.stringify(taskItems))
     displayTasks()
 }
 }
+//user clicks the edit btn calling the event handler in editask
+//on click the editTasks function is called 
+//I want to get the ID of the item and replace the old content with the new
+// then return new array with item updated
 
 tasks?.addEventListener("click", deleteTasks)
 
