@@ -12,9 +12,12 @@ const taskInput = document.querySelector<HTMLInputElement>("#addNewItem")!;
 
 let tasks = document.querySelector<HTMLDivElement>('#taskList')!; 
 let addTask = document.querySelector<HTMLDivElement>('#submit')!; 
+let editTask = document.querySelector<HTMLDivElement>('#editTask')!; 
+let deleteTask = document.querySelector<HTMLDivElement>('#deleteTask')!; 
 
 addTask.addEventListener<'click'>('click', addTasks);
-
+editTask.addEventListener<'click'>('click', editTasks);
+deleteTask.addEventListener<'click'>('click', deleteTasks);
 
 function displayTasks(){
     let itemList: string = ``;
@@ -39,6 +42,21 @@ taskItems.push({
 displayTasks()
 }
 }
+
+function editTasks(e: MouseEvent){
+if(e){
+
+}
+displayTasks()
+}
+
+function deleteTasks(e: MouseEvent){
+if(e){
+
+}
+displayTasks()
+}
+
 displayTasks()
 //above is displayed at all times
 //if taskList.length === 0 display nothing besides above
