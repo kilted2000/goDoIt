@@ -26,8 +26,8 @@ func main(){
     router.GET("/tasks", getAllTasks)
     //router.GET("/tasks/:id", getTasksByID)
     router.POST("/tasks", postTasks)
-    router.PUT("/tasks/:id")
-    router.DELETE("/tasks/:id")
+    router.PUT("/tasks/:id", editTasksById)
+    router.DELETE("/tasks/:id", deleteTaskById)
 
     router.Run("localhost:8080")
 
@@ -59,10 +59,22 @@ func postTasks(c *gin.Context) {
 //     c.IndentedJSON(http.StatusNotFound, gin.H{"message": "task not found"})
 // }
 
-// func editTasksById(c *gin.Context){
+func editTasksById(c *gin.Context){
+id := c.Param("id")
+ for _, a := range tasks {
+        if a.ID == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+}
+}
 
-// }
-
-// func deleteTaskById(c *gin.Context){
-
-// }
+func deleteTaskById(c *gin.Context){
+id := c.Param("id")
+ for _, a := range tasks {
+        if a.ID == id {
+            c.IndentedJSON(http.StatusOK, a)
+            return
+        }
+}
+}
