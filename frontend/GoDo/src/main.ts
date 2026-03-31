@@ -6,8 +6,7 @@ type TaskItem = {
   checked: boolean;
   isEditing: boolean;
 }
-//TODO test and connect Golang backend
-const taskItems: TaskItem[] = [];
+let taskItems: TaskItem[] = [];
 
 const taskInput = document.querySelector<HTMLInputElement>("#addNewItem")!;
 
@@ -90,7 +89,12 @@ function deleteTasks(e: MouseEvent) {
     displayTasks()
   }
 }
+
+if (localStorage.getItem("task") !== null){
+taskItems = JSON.parse(localStorage.getItem("task")!)
+}  
 displayTasks()
+
 
 
 
