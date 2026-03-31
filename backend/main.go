@@ -1,32 +1,68 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
+  "github.com/gin-gonic/gin"
 )
 //backend saves items to localStorage
 //sends updated list to frontend
-var hello = "Hello"
-var hi = "Tim"
-var hey = "Bob"
-var hola = "Vin"
-var taskItems = []string{hello, hi, hey, hola}
+//functions to GET, POST, DELETE, PUT 
+//req, res
+type TaskItem struct{
+  ID string `json:"id"`
+  Content string `json:"content"`
+  Checked bool `json:"checked"`
+  IsEditing bool `json:"isEditing"`
+}
+
+var tasks = []TaskItem{
+  {ID: "1", Content: "walk the dog", Checked: false, IsEditing: false },
+  {ID: "2", Content: "feed the dog", Checked: false, IsEditing: false },
+  {ID: "3", Content: "spoil the dog", Checked: false, IsEditing: false },
+}
 
 func main(){
+ router := gin.Default()
+    router.GET("/tasks", getAllTasks)
+    //router.GET("/tasks/:id", getTasksByID)
+    router.POST("/tasks", postTasks)
+    router.PUT("/tasks/:id")
+    router.DELETE("/tasks/:id")
 
- http.HandleFunc("/", helloUser)
- http.HandleFunc("/show-tasks", showTasks)
- http.ListenAndServe(":8080", nil)
+    router.Run("localhost:8080")
 
 }
 
-func showTasks(writer http.ResponseWriter, request *http.Request) {
-  for _, task := range taskItems {
-    fmt.Fprintln(writer, task)
-  }
+func getAllTasks(c *gin.Context) {
+    c.IndentedJSON(http.StatusOK, tasks)
+}
+func postTasks(c *gin.Context) {
+    var newTask TaskItem
+
+    if err := c.BindJSON(&newTask); err != nil {
+        return
+    }
+
+    tasks = append(tasks, newTask)
+    c.IndentedJSON(http.StatusCreated, newTask)
 }
 
-func helloUser(writer http.ResponseWriter, request *http.Request) {
-  var greeting = "Hello user. Welcome to our Todolist App!"
-  fmt.Fprintln(writer, greeting)
-}
+// func getTasksByID(c *gin.Context) {
+//     id := c.Param("id")
+
+//     for _, a := range tasks {
+//         if a.ID == id {
+//             c.IndentedJSON(http.StatusOK, a)
+//             return
+//         }
+//     }
+//     c.IndentedJSON(http.StatusNotFound, gin.H{"message": "task not found"})
+// }
+
+// func editTasksById(c *gin.Context){
+
+// }
+
+// func deleteTaskById(c *gin.Context){
+
+// }
