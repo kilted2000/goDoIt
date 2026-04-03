@@ -16,7 +16,7 @@ var tasks = []TaskItem{
   {ID: "2", Content: "feed the dog", Checked: false},
   {ID: "3", Content: "spoil the dog", Checked: false},
 }
-
+//main function needed in all Go apps
 func main(){
  router := gin.Default()
     router.GET("/tasks", getAllTasks)
