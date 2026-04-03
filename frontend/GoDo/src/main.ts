@@ -6,6 +6,7 @@ type TaskItem = {
   checked: boolean;
   isEditing: boolean;
 }
+
 let taskItems: TaskItem[] = [];
 
 const taskInput = document.querySelector<HTMLInputElement>("#addNewItem")!;
