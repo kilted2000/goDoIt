@@ -32,6 +32,14 @@ func main(){
 func getAllTasks(c *gin.Context) {
     c.IndentedJSON(http.StatusOK, tasks)
 }
+
+//passing in c using the gin context type
+//create a new variable called newTask with the type of TaskItem
+//if error checking either serializing or deserializing with BindJSON 
+//if error is not nil return error
+//else append the newTask to tasks list
+//IndentedJSON reserializes c as json
+//sends back an http status code 201
 func postTasks(c *gin.Context) {
     var newTask TaskItem
 
