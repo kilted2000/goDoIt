@@ -87,6 +87,7 @@ id := c.Param("id")
 // taskItems = JSON.parse(localStorage.getItem("task")!)
 // }  
 // displayTasks()
+//rangeOne := scores[0:3] // [100 50 60]
 func deleteTaskById(c *gin.Context){
 id := c.Param("id")
  for _, a := range tasks {
