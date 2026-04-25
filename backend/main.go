@@ -14,7 +14,8 @@ type TaskItem struct{
 var tasks = []TaskItem{
   {ID: "1", Content: "walk the dog", Checked: false},
   {ID: "2", Content: "feed the dog", Checked: false},
-  {ID: "3", Content: "spoil the dog", Checked: false},
+  {ID: "3", Content: "water the dog", Checked: false},
+  {ID: "4", Content: "clip dogs toenails", Checked: false},
 }
 //main function needed in all Go apps
 func main(){
